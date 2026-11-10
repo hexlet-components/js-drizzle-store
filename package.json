@@ -1,5 +1,5 @@
 {
-  "name": "drizzle-demo",
+  "name": "js-drizzle-store",
   "private": true,
   "type": "module",
   "scripts": {
