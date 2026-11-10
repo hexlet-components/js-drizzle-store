@@ -1,15 +1,14 @@
-# PostgreSQL для примеров курса. Имя контейнера, порт, пароль и база совпадают
-# с командами в уроках, поэтому `docker exec drizzle-course-db createdb …`
-# работает и с контейнером из этого файла.
+# PostgreSQL для примеров курса. Порт, пользователь и пароль совпадают
+# с адресом базы в уроках.
 services:
   db:
     image: postgres:18
     container_name: drizzle-course-db
     environment:
-      POSTGRES_PASSWORD: drizzle
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: drizzle_course
     ports:
-      - "5434:5432"
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql
     healthcheck:

@@ -25,7 +25,7 @@
 | `drizzle/` | Миграция полной схемы, сгенерированная Drizzle Kit |
 | `src/seed.ts` | Учебные данные магазина для пустой базы |
 | `src/demo.ts` | Пример запроса с `innerJoin` |
-| `compose.yaml` | PostgreSQL 18 в контейнере `drizzle-course-db` на порту `5434` |
+| `compose.yaml` | PostgreSQL 18 в контейнере `drizzle-course-db` на порту `5432` |
 
 ## Запуск
 
@@ -35,19 +35,19 @@
 make setup
 ```
 
-Compose поднимает PostgreSQL 18 в контейнере `drizzle-course-db` на порту `5434` с паролем `drizzle`, как в уроках курса. Команда `--wait` дожидается, пока база начнёт принимать подключения. Данные хранятся в томе и переживают перезапуск контейнера. Если контейнер `drizzle-course-db` уже создан командой `docker run` из урока, compose не нужен, и примеры работают с этим контейнером.
+Compose поднимает PostgreSQL 18 в контейнере `drizzle-course-db` на порту `5432` с пользователем `postgres` и паролем `postgres`. Такой адрес базы используют уроки курса. Команда `--wait` дожидается, пока база начнёт принимать подключения. Данные хранятся в томе и переживают перезапуск контейнера. Если порт `5432` уже занят своим PostgreSQL, контейнер не нужен, см. раздел «Без Docker».
 
-Каждый урок работает в своей пустой базе. Для неё создаётся база в контейнере, её адрес записывается в `.env`, затем применяется миграция.
+Каждый урок работает в своей пустой базе. Для неё создаётся база, её адрес записывается в `.env`, затем применяется миграция.
 
 ```bash
 make db-create DB=drizzle_joins
-# в .env: DATABASE_URL=postgres://postgres:drizzle@localhost:5434/drizzle_joins
+# в .env: DATABASE_URL=postgres://postgres:postgres@localhost:5432/drizzle_joins
 make migrate
 make seed
 make demo
 ```
 
-Цели `make` повторяют команды уроков. `make db-create` вызывает `docker exec drizzle-course-db createdb`, `make migrate` и `make demo` вызывают `npm run db:migrate` и `npm run demo`, `make seed` запускает _src/seed.ts_.
+Цели `make` повторяют команды уроков. `make db-create` создаёт базу внутри контейнера, `make migrate` и `make demo` вызывают `npm run db:migrate` и `npm run demo`, `make seed` запускает _src/seed.ts_.
 
 Программа печатает заказы покупателей.
 
@@ -63,7 +63,7 @@ make demo
 
 ## Без Docker
 
-Проекту нужен любой PostgreSQL, до которого программа доходит по адресу из `DATABASE_URL`. Команды уроков вида `docker exec drizzle-course-db createdb …` в этом случае заменяются клиентскими утилитами PostgreSQL `createdb` и `psql`.
+Проекту нужен любой PostgreSQL, до которого программа доходит по адресу из `DATABASE_URL`. Уроки создают базы утилитой PostgreSQL `createdb`.
 
 ### PostgreSQL на своём компьютере
 

@@ -24,7 +24,7 @@ jobs:
       postgres:
         image: postgres:18@sha256:e3d24f6906d0760bf4da0dae872415391ededefad23fd471c47dc53b0ddf3c42
         env:
-          POSTGRES_PASSWORD: drizzle
+          POSTGRES_PASSWORD: postgres
           POSTGRES_DB: drizzle_store_test
         ports:
           - 5432:5432
@@ -34,7 +34,7 @@ jobs:
           --health-timeout 3s
           --health-retries 15
     env:
-      DATABASE_URL: postgres://postgres:drizzle@localhost:5432/drizzle_store_test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/drizzle_store_test
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

@@ -29,7 +29,7 @@ typecheck:
 	npm run typecheck
 
 # Тесты пересоздают схему, поэтому идут в отдельной базе drizzle_store_test
-TEST_DATABASE_URL = postgres://postgres:drizzle@localhost:5434/drizzle_store_test
+TEST_DATABASE_URL = postgres://postgres:postgres@localhost:5432/drizzle_store_test
 
 test:
 	docker exec drizzle-course-db psql -U postgres -tAc "select 1 from pg_database where datname = 'drizzle_store_test'" | grep -q 1 \
