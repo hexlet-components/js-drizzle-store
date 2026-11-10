@@ -1,0 +1,25 @@
+# Тулинг репозитория для хоста. Курс требует Node.js 24 или новее,
+# пакеты ставит npm из комплекта Node.js, как в уроках.
+[tools]
+betterleaks = "latest"
+hk = "2"
+lychee = "latest"
+node = "26"
+"npm:@commitlint/cli" = "latest"
+"npm:@commitlint/config-conventional" = "latest"
+osv-scanner = "latest"
+pkl = "latest"
+rumdl = "latest"
+typos = "latest"
+
+[tasks.setup]
+description = "Поставить зависимости и git-хуки"
+run = ["npm ci", "hk install"]
+
+[tasks.check]
+description = "Все проверки, тот же набор, что гоняет CI"
+run = "hk check --all"
+
+[tasks.fix]
+description = "Применить автоисправления"
+run = "hk fix --all"

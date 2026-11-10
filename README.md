@@ -1,6 +1,16 @@
 # Drizzle ORM: учебный магазин
 
-Репозиторий используется в курсе Хекслета «Drizzle ORM». На нём запускаются примеры уроков и выполняются самостоятельные работы. В нём лежит полная схема магазина из шести таблиц и её миграция, поэтому схему перед работой готовить не нужно.
+[![Check](https://github.com/hexlet-components/js-drizzle-store/actions/workflows/check.yml/badge.svg)](https://github.com/hexlet-components/js-drizzle-store/actions/workflows/check.yml)
+
+## Зачем это нужно
+
+Репозиторий используется в курсе Хекслета [«Drizzle ORM»](https://ru.hexlet.io/courses/js-drizzle?utm_source=github&utm_medium=referral&utm_campaign=hexlet-components&utm_content=js-drizzle-store). На нём запускаются примеры уроков и выполняются самостоятельные работы. В нём лежит полная схема магазина из шести таблиц и её миграция, поэтому схему перед работой готовить не нужно.
+
+## Требования
+
+- Node.js 24 или новее и npm, [инструкция по установке](https://github.com/Hexlet/ru-instructions/blob/main/nodejs.md)
+- Docker с Compose, [инструкция по установке](https://github.com/Hexlet/ru-instructions/blob/main/docker.md). Без Docker подойдёт свой PostgreSQL, см. раздел «Без Docker»
+- Make
 
 ## Состав
 
@@ -15,12 +25,10 @@
 
 ## Запуск
 
-Нужны Node.js 24 или новее и npm. PostgreSQL проще всего запустить в Docker, способы без Docker описаны ниже. Все команды выполняются из каталога проекта.
+Все команды выполняются из каталога проекта. Подготовка ставит пакеты, создаёт `.env` из `.env.example` и запускает PostgreSQL.
 
 ```bash
-npm install
-cp .env.example .env
-docker compose up -d --wait
+make setup
 ```
 
 Compose поднимает PostgreSQL 18 в контейнере `drizzle-course-db` на порту `5434` с паролем `drizzle`, как в уроках курса. Команда `--wait` дожидается, пока база начнёт принимать подключения. Данные хранятся в томе и переживают перезапуск контейнера. Если контейнер `drizzle-course-db` уже создан командой `docker run` из урока, compose не нужен, и примеры работают с этим контейнером.
@@ -28,12 +36,14 @@ Compose поднимает PostgreSQL 18 в контейнере `drizzle-course
 Каждый урок работает в своей пустой базе. Для неё создаётся база в контейнере, её адрес записывается в `.env`, затем применяется миграция.
 
 ```bash
-docker exec drizzle-course-db createdb -U postgres drizzle_joins
+make db-create DB=drizzle_joins
 # в .env: DATABASE_URL=postgres://postgres:drizzle@localhost:5434/drizzle_joins
-npm run db:migrate
-npx tsx --env-file=.env src/seed.ts
-npm run demo
+make migrate
+make seed
+make demo
 ```
+
+Цели `make` повторяют команды уроков. `make db-create` вызывает `docker exec drizzle-course-db createdb`, `make migrate` и `make demo` вызывают `npm run db:migrate` и `npm run demo`, `make seed` запускает _src/seed.ts_.
 
 Программа печатает заказы покупателей.
 
@@ -45,7 +55,7 @@ npm run demo
 ]
 ```
 
-Контейнер останавливается командой `docker compose down`. Команда `docker compose down -v` удаляет его вместе со всеми базами.
+Контейнер останавливается командой `make db-down`. Команда `docker compose down -v` удаляет его вместе со всеми базами.
 
 ## Без Docker
 
@@ -53,7 +63,7 @@ npm run demo
 
 ### PostgreSQL на своём компьютере
 
-PostgreSQL ставится по инструкции для вашей системы с [postgresql.org/download](https://www.postgresql.org/download/). Вместе с сервером ставятся `createdb` и `psql`. По умолчанию сервер слушает порт `5432`, а пользователь и пароль задаются при установке.
+PostgreSQL ставится по [инструкции для вашей системы](https://github.com/Hexlet/ru-instructions/blob/main/postgresql.md). Вместе с сервером ставятся `createdb` и `psql`. По умолчанию сервер слушает порт `5432`, а пользователь и пароль задаются при установке.
 
 ```bash
 createdb -h localhost -p 5432 -U postgres drizzle_joins
@@ -78,6 +88,10 @@ psql "<строка подключения>" -c "DROP SCHEMA IF EXISTS drizzle C
 npm run db:migrate
 ```
 
+## Разработка
+
+Проверки репозитория собраны в [mise](https://mise.jdx.dev/). Команда `mise run setup` ставит пакеты и git-хуки, `mise run check` запускает тот же набор проверок, что и CI.
+
 ## Отличия от других репозиториев организации
 
 Проект повторяет код курса, поэтому версии пакетов и команды совпадают с уроками.
@@ -89,3 +103,9 @@ npm run db:migrate
 
 - Описаний `relations()` для Relations API. Урок про Relations API добавляет их сам вместе со счётчиком запросов в `src/db/index.ts`.
 - Промежуточной схемы из двух таблиц, `products` и `customers`, на которой построены уроки про вставку, выборку, обновление и удаление.
+
+---
+
+[![Hexlet Ltd. logo](https://raw.githubusercontent.com/Hexlet/assets/master/images/hexlet_logo128.png)](https://hexlet.io/?utm_source=github&utm_medium=referral&utm_campaign=hexlet-components&utm_content=js-drizzle-store)
+
+This repository is created and maintained by the team and the community of Hexlet, an educational project. [Read more about Hexlet](https://hexlet.io/?utm_source=github&utm_medium=referral&utm_campaign=hexlet-components&utm_content=js-drizzle-store).
