@@ -1,14 +1,13 @@
-import assert from "node:assert/strict";
-import { after, before, test } from "node:test";
+import { afterAll, beforeAll, expect, test } from "vitest";
 import { db, pool } from "../src/db/index.ts";
 import { resetDb, seedShop } from "./helpers.ts";
 
-before(async () => {
+beforeAll(async () => {
   await resetDb();
   await seedShop();
 });
 
-after(async () => {
+afterAll(async () => {
   await pool.end();
 });
 
@@ -24,7 +23,7 @@ test("покупатели загружаются вместе с заказам
     },
   });
 
-  assert.deepEqual(customers, [
+  expect(customers).toEqual([
     {
       firstName: "Аня",
       orders: [
@@ -43,5 +42,5 @@ test("позиция заказа загружается с товаром", asy
     with: { product: { columns: { sku: true } } },
   });
 
-  assert.deepEqual(item, { quantity: 2, product: { sku: "chair" } });
+  expect(item).toEqual({ quantity: 2, product: { sku: "chair" } });
 });

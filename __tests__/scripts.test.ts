@@ -1,14 +1,13 @@
 import { execFileSync } from "node:child_process";
-import assert from "node:assert/strict";
-import { after, before, test } from "node:test";
+import { afterAll, beforeAll, expect, test } from "vitest";
 import { pool } from "../src/db/index.ts";
 import { resetDb } from "./helpers.ts";
 
-before(async () => {
+beforeAll(async () => {
   await resetDb();
 });
 
-after(async () => {
+afterAll(async () => {
   await pool.end();
 });
 
@@ -20,15 +19,12 @@ const run = (file: string) =>
 
 test("seed.ts заполняет базу, а demo.ts печатает заказы покупателей", () => {
   run("src/seed.ts");
-  assert.equal(
-    run("src/demo.ts"),
-    [
+  expect(run("src/demo.ts")).toBe([
       "[",
       "  { customer: 'Аня', orderId: 1 },",
       "  { customer: 'Аня', orderId: 2 },",
       "  { customer: 'Борис', orderId: 3 }",
       "]",
       "",
-    ].join("\n"),
-  );
+    ].join("\n"));
 });
