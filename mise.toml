@@ -3,6 +3,7 @@
 [tools]
 betterleaks = "latest"
 hk = "2"
+jactionlint = { version = "latest", workflow = "release.yaml" }
 lychee = "latest"
 node = "26"
 "npm:@commitlint/cli" = "latest"
