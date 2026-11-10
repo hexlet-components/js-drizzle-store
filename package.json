@@ -6,7 +6,8 @@
     "demo": "tsx --env-file=.env src/demo.ts",
     "db:generate": "node --env-file=.env node_modules/drizzle-kit/bin.cjs generate",
     "db:migrate": "node --env-file=.env node_modules/drizzle-kit/bin.cjs migrate",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "node --env-file-if-exists=.env --test --test-concurrency=1 __tests__/*.test.ts"
   },
   "dependencies": {
     "drizzle-orm": "0.45.4",

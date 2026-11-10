@@ -1,6 +1,7 @@
 # Drizzle ORM: учебный магазин
 
 [![Check](https://github.com/hexlet-components/js-drizzle-store/actions/workflows/check.yml/badge.svg)](https://github.com/hexlet-components/js-drizzle-store/actions/workflows/check.yml)
+[![Test](https://github.com/hexlet-components/js-drizzle-store/actions/workflows/test.yml/badge.svg)](https://github.com/hexlet-components/js-drizzle-store/actions/workflows/test.yml)
 
 ## Зачем это нужно
 
@@ -95,11 +96,20 @@ npm run db:migrate
 
 Проверки репозитория собраны в [mise](https://mise.jdx.dev/). Команда `mise run setup` ставит пакеты и git-хуки, `mise run check` запускает тот же набор проверок, что и CI.
 
+## Тесты
+
+Тесты проверяют миграцию и ограничения схемы, связи для Relations API, модули валидации и импорта, а также запуск _src/seed.ts_ и _src/demo.ts_. Они пересоздают схему базы, поэтому работают только с базой, имя которой оканчивается на `_test`. Команда `make test` создаёт базу `drizzle_store_test` в контейнере и запускает тесты на ней.
+
+```bash
+make test
+```
+
 ## Отличия от других репозиториев организации
 
 Проект повторяет код курса, поэтому версии пакетов и команды совпадают с уроками.
 
 - Пакеты ставит npm, потому что уроки пишут `npm run` и `npm install`.
+- Тесты идут на встроенном раннере Node.js `node --test`, а не на vitest. Пакетов он не добавляет, и TypeScript в нём запускается без сборки.
 - Версии `drizzle-orm`, `drizzle-kit`, `pg` и остальных пакетов закреплены точно. Обновление меняет вывод программ, и он расходится с уроками. Поднимать их нужно вместе с курсом.
 
 ## Чего здесь нет
