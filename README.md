@@ -11,6 +11,7 @@
 - Node.js 24 или новее и npm, [инструкция по установке](https://github.com/Hexlet/ru-instructions/blob/main/nodejs.md)
 - Docker с Compose, [инструкция по установке](https://github.com/Hexlet/ru-instructions/blob/main/docker.md). Без Docker подойдёт свой PostgreSQL, см. раздел «Без Docker»
 - Make
+- [mise](https://mise.jdx.dev/) для проверок репозитория, см. раздел «Разработка». Курсу он не нужен, но через него удобно поставить Node.js, [инструкция](https://github.com/Hexlet/ru-instructions/blob/main/nodejs.md#используя-менеджер-версий-mise)
 
 ## Состав
 
