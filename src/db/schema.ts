@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import { integer, pgEnum, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
 
 export const products = pgTable("products", {
@@ -57,3 +58,46 @@ export const productCategories = pgTable(
   },
   (table) => [primaryKey({ columns: [table.productId, table.categoryId] })],
 );
+
+export const customersRelations = relations(customers, ({ many }) => ({
+  orders: many(orders),
+}));
+
+export const ordersRelations = relations(orders, ({ one, many }) => ({
+  customer: one(customers, {
+    fields: [orders.customerId],
+    references: [customers.id],
+  }),
+  items: many(orderItems),
+}));
+
+export const orderItemsRelations = relations(orderItems, ({ one }) => ({
+  order: one(orders, {
+    fields: [orderItems.orderId],
+    references: [orders.id],
+  }),
+  product: one(products, {
+    fields: [orderItems.productId],
+    references: [products.id],
+  }),
+}));
+
+export const productsRelations = relations(products, ({ many }) => ({
+  items: many(orderItems),
+  productCategories: many(productCategories),
+}));
+
+export const categoriesRelations = relations(categories, ({ many }) => ({
+  productCategories: many(productCategories),
+}));
+
+export const productCategoriesRelations = relations(productCategories, ({ one }) => ({
+  product: one(products, {
+    fields: [productCategories.productId],
+    references: [products.id],
+  }),
+  category: one(categories, {
+    fields: [productCategories.categoryId],
+    references: [categories.id],
+  }),
+}));

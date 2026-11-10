@@ -17,8 +17,10 @@
 
 | Файл | Назначение |
 | --- | --- |
-| `src/db/schema.ts` | Таблицы `products`, `customers`, `orders`, `orderItems`, `categories` и `productCategories` |
-| `src/db/index.ts` | Подключение Drizzle к PostgreSQL через пул `pg`, экспортирует `db` и `pool` |
+| `src/db/schema.ts` | Таблицы `products`, `customers`, `orders`, `orderItems`, `categories` и `productCategories` и описания связей `relations()` для Relations API |
+| `src/db/index.ts` | Подключение Drizzle к PostgreSQL через пул `pg`, экспортирует `db` и `pool`. При `DRIZZLE_LOG=true` в `.env` печатает каждый SQL-запрос |
+| `src/validation.ts`, `src/product-patch.ts` | Проверка нового товара и частичного обновления через `drizzle-zod` |
+| `src/import-products.ts` | Импорт пачки товаров с проверкой до транзакции |
 | `drizzle/` | Миграция полной схемы, сгенерированная Drizzle Kit |
 | `src/seed.ts` | Учебные данные магазина для пустой базы |
 | `src/demo.ts` | Пример запроса с `innerJoin` |
@@ -102,7 +104,6 @@ npm run db:migrate
 
 ## Чего здесь нет
 
-- Описаний `relations()` для Relations API. Урок про Relations API добавляет их сам вместе со счётчиком запросов в `src/db/index.ts`.
 - Промежуточной схемы из двух таблиц, `products` и `customers`, на которой построены уроки про вставку, выборку, обновление и удаление.
 
 ---
