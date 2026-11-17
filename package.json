@@ -3,11 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "demo": "tsx --env-file=.env src/demo.ts",
+    "demo": "node --env-file=.env src/demo.js",
     "db:generate": "node --env-file=.env node_modules/drizzle-kit/bin.cjs generate",
     "db:migrate": "node --env-file=.env node_modules/drizzle-kit/bin.cjs migrate",
-    "typecheck": "tsc --noEmit",
-    "test": "node --env-file-if-exists=.env node_modules/vitest/vitest.mjs run"
+    "test": "node --env-file-if-exists=.env node_modules/vitest/vitest.mjs run",
+    "check:syntax": "node --input-type=module -e 'import { globSync } from \"node:fs\"; import { execFileSync } from \"node:child_process\"; for (const file of globSync([\"src/**/*.js\", \"__tests__/**/*.js\", \"*.js\"])) execFileSync(process.execPath, [\"--check\", file], { stdio: \"inherit\" });'"
   },
   "dependencies": {
     "drizzle-orm": "0.45.4",
@@ -16,11 +16,7 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
-    "@types/node": "26.6.6",
-    "@types/pg": "8.23.1",
     "drizzle-kit": "0.31.11",
-    "tsx": "4.23.15",
-    "typescript": "7.0.2",
     "vitest": "5.1.0"
   }
 }

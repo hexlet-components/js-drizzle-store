@@ -1,6 +1,6 @@
 import { asc, eq } from "drizzle-orm";
-import { db, pool } from "./db/index.ts";
-import { customers, orders } from "./db/schema.ts";
+import { db, pool } from "./db/index.js";
+import { customers, orders } from "./db/schema.js";
 
 try {
   const rows = await db

@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, expect, test } from "vitest";
-import { db, pool } from "../src/db/index.ts";
-import { resetDb, seedShop } from "./helpers.ts";
+import { db, pool } from "../src/db/index.js";
+import { resetDb, seedShop } from "./helpers.js";
 
 beforeAll(async () => {
   await resetDb();

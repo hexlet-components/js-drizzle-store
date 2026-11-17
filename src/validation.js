@@ -1,5 +1,5 @@
 import { createInsertSchema } from "drizzle-zod";
-import { products } from "./db/schema.ts";
+import { products } from "./db/schema.js";
 
 export const productInput = createInsertSchema(products, {
   sku: (schema) => schema.trim().min(1),

@@ -1,10 +1,11 @@
 import { afterAll, beforeEach, expect, test } from "vitest";
-import { db, pool } from "../src/db/index.ts";
-import { products } from "../src/db/schema.ts";
-import { importProducts } from "../src/import-products.ts";
-import { productPatchInput } from "../src/product-patch.ts";
-import { productInput } from "../src/validation.ts";
-import { resetDb } from "./helpers.ts";
+import { ZodError } from "zod";
+import { db, pool } from "../src/db/index.js";
+import { products } from "../src/db/schema.js";
+import { importProducts } from "../src/import-products.js";
+import { productPatchInput } from "../src/product-patch.js";
+import { productInput } from "../src/validation.js";
+import { resetDb } from "./helpers.js";
 
 beforeEach(async () => {
   await resetDb();
@@ -18,7 +19,9 @@ test("новый товар проверяется до записи", () => {
   expect(productInput.safeParse({ sku: "mug", name: "Кружка", price: 50000 }).success).toBe(true);
   expect(productInput.safeParse({ sku: "mug", name: " ", price: 50000 }).success).toBe(false);
   expect(productInput.safeParse({ sku: "mug", name: "Кружка", price: -1 }).success).toBe(false);
-  expect(productInput.safeParse({ sku: "mug", name: "Кружка", price: 1, id: 7 }).success).toBe(false);
+  expect(productInput.safeParse({ sku: "mug", name: "Кружка", price: 1, id: 7 }).success).toBe(
+    false,
+  );
 });
 
 test("частичное обновление требует хотя бы одно поле", () => {
@@ -32,7 +35,7 @@ test("импорт с ошибкой в пачке ничего не запис�
     { sku: "notebook", name: "Блокнот", price: 30000 },
     { sku: "pen", name: "Ручка", price: "дорого" },
   ];
-  await expect(importProducts(batch)).rejects.toThrow();
+  await expect(importProducts(batch)).rejects.toThrow(ZodError);
   expect(await db.select().from(products)).toEqual([]);
 });
 

@@ -20,13 +20,13 @@ migrate:
 	npm run db:migrate
 
 seed:
-	npx tsx --env-file=.env src/seed.ts
+	node --env-file=.env src/seed.js
 
 demo:
 	npm run demo
 
-typecheck:
-	npm run typecheck
+check-syntax:
+	npm run check:syntax
 
 # Тесты пересоздают схему, поэтому идут в отдельной базе drizzle_store_test
 TEST_DATABASE_URL = postgres://postgres:postgres@localhost:5432/drizzle_store_test
@@ -36,4 +36,4 @@ test:
 		|| docker exec drizzle-course-db createdb -U postgres drizzle_store_test
 	DATABASE_URL=$(TEST_DATABASE_URL) npm test
 
-.PHONY: setup install prepare-env db-up db-down db-create migrate seed demo typecheck test
+.PHONY: setup install prepare-env db-up db-down db-create migrate seed demo check-syntax test

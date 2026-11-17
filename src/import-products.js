@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { db } from "./db/index.ts";
-import { products } from "./db/schema.ts";
-import { productInput } from "./validation.ts";
+import { db } from "./db/index.js";
+import { products } from "./db/schema.js";
+import { productInput } from "./validation.js";
 
-export async function importProducts(input: unknown) {
+export const importProducts = async (input) => {
   const items = z.array(productInput).min(1).parse(input);
 
   return db.transaction(async (tx) => {
@@ -23,4 +23,4 @@ export async function importProducts(input: unknown) {
 
     return rows;
   });
-}
+};

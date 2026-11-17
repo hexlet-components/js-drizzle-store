@@ -1,7 +1,7 @@
 import { sql } from "drizzle-orm";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
-import { db } from "../src/db/index.ts";
-import { customers, orderItems, orders, products } from "../src/db/schema.ts";
+import { db } from "../src/db/index.js";
+import { customers, orderItems, orders, products } from "../src/db/schema.js";
 
 // Тесты пересоздают схему, поэтому работают только с отдельной тестовой базой.
 const url = new URL(process.env.DATABASE_URL ?? "");
@@ -9,14 +9,14 @@ if (!url.pathname.endsWith("_test")) {
   throw new Error(`Тесты запускаются только на базе с именем *_test, сейчас ${url.pathname}`);
 }
 
-export async function resetDb() {
+export const resetDb = async () => {
   await db.execute(sql`drop schema if exists drizzle cascade`);
   await db.execute(sql`drop schema public cascade`);
   await db.execute(sql`create schema public`);
   await migrate(db, { migrationsFolder: "drizzle" });
-}
+};
 
-export async function seedShop() {
+export const seedShop = async () => {
   await db.insert(products).values([
     { sku: "chair", name: "Стул", price: 300000, stock: 10 },
     { sku: "lamp", name: "Лампа", price: 150000, stock: 5 },
@@ -30,4 +30,4 @@ export async function seedShop() {
     { orderId: 1, productId: 1, quantity: 2, price: 300000 },
     { orderId: 2, productId: 2, quantity: 1, price: 150000 },
   ]);
-}
+};

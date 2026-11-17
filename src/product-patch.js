@@ -1,5 +1,5 @@
 import { createUpdateSchema } from "drizzle-zod";
-import { products } from "./db/schema.ts";
+import { products } from "./db/schema.js";
 
 export const productPatchInput = createUpdateSchema(products, {
   name: (schema) => schema.trim().min(1),

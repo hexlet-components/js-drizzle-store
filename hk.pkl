@@ -12,9 +12,9 @@ local fast = new Mapping<String, Step> {
 }
 
 local all = (fast) {
-  ["typecheck"] {
-    glob = List("**/*.ts", "tsconfig.json")
-    check = "npm run --silent typecheck"
+  ["syntax"] {
+    glob = List("**/*.js", "package.json")
+    check = "npm run --silent check:syntax"
   }
   ["lychee"] {
     glob = List("**/*.md")

@@ -1,8 +1,8 @@
 import { eq } from "drizzle-orm";
 import { afterAll, beforeEach, expect, test } from "vitest";
-import { db, pool } from "../src/db/index.ts";
-import { orderItems, orders, products } from "../src/db/schema.ts";
-import { resetDb, seedShop } from "./helpers.ts";
+import { db, pool } from "../src/db/index.js";
+import { orderItems, orders, products } from "../src/db/schema.js";
+import { resetDb, seedShop } from "./helpers.js";
 
 beforeEach(async () => {
   await resetDb();
@@ -22,9 +22,9 @@ test("товар с позициями заказа удалить нельзя,
   const error = await db
     .delete(products)
     .where(eq(products.sku, "chair"))
-    .catch((e: unknown) => e);
+    .catch((e) => e);
   expect(error).toBeInstanceOf(Error);
-  expect((error as Error & { cause?: { code?: string } }).cause?.code).toBe("23001");
+  expect(error.cause?.code).toBe("23001");
 });
 
 test("удаление заказа удаляет его позиции", async () => {
@@ -37,6 +37,6 @@ test("артикул товара уникален", async () => {
   const error = await db
     .insert(products)
     .values({ sku: "chair", name: "Другой стул", price: 1 })
-    .catch((e: unknown) => e);
-  expect((error as Error & { cause?: { code?: string } }).cause?.code).toBe("23505");
+    .catch((e) => e);
+  expect(error.cause?.code).toBe("23505");
 });

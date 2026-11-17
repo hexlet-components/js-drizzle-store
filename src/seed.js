@@ -1,4 +1,4 @@
-import { db, pool } from "./db/index.ts";
+import { db, pool } from "./db/index.js";
 import {
   categories,
   customers,
@@ -6,7 +6,7 @@ import {
   orders,
   productCategories,
   products,
-} from "./db/schema.ts";
+} from "./db/schema.js";
 
 try {
   await db.insert(products).values([

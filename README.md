@@ -5,7 +5,7 @@
 
 ## Зачем это нужно
 
-Репозиторий используется в курсе Хекслета [«Drizzle ORM»](https://ru.hexlet.io/courses/js-drizzle?utm_source=github&utm_medium=referral&utm_campaign=hexlet-components&utm_content=js-drizzle-store). На нём запускаются примеры уроков и выполняются самостоятельные работы. В нём лежит полная схема магазина из шести таблиц и её миграция, поэтому схему перед работой готовить не нужно.
+Репозиторий используется в курсе Хекслета [«Drizzle ORM»](https://ru.hexlet.io/courses/js-drizzle?utm_source=github&utm_medium=referral&utm_campaign=hexlet-components&utm_content=js-drizzle-store). На нём запускаются примеры уроков и выполняются самостоятельные работы на JavaScript. Программы запускает Node.js напрямую. В нём лежит полная схема магазина из шести таблиц и её миграция, поэтому схему перед работой готовить не нужно.
 
 ## Требования
 
@@ -18,13 +18,13 @@
 
 | Файл | Назначение |
 | --- | --- |
-| `src/db/schema.ts` | Таблицы `products`, `customers`, `orders`, `orderItems`, `categories` и `productCategories` и описания связей `relations()` для Relations API |
-| `src/db/index.ts` | Подключение Drizzle к PostgreSQL через пул `pg`, экспортирует `db` и `pool`. При `DRIZZLE_LOG=true` в `.env` печатает каждый SQL-запрос |
-| `src/validation.ts`, `src/product-patch.ts` | Проверка нового товара и частичного обновления через `drizzle-zod` |
-| `src/import-products.ts` | Импорт пачки товаров с проверкой до транзакции |
+| `src/db/schema.js` | Таблицы `products`, `customers`, `orders`, `orderItems`, `categories` и `productCategories` и описания связей `relations()` для Relations API |
+| `src/db/index.js` | Подключение Drizzle к PostgreSQL через пул `pg`, экспортирует `db` и `pool`. При `DRIZZLE_LOG=true` в `.env` печатает каждый SQL-запрос |
+| `src/validation.js`, `src/product-patch.js` | Проверка нового товара и частичного обновления через `drizzle-zod` |
+| `src/import-products.js` | Импорт пачки товаров с проверкой до транзакции |
 | `drizzle/` | Миграция полной схемы, сгенерированная Drizzle Kit |
-| `src/seed.ts` | Учебные данные магазина для пустой базы |
-| `src/demo.ts` | Пример запроса с `innerJoin` |
+| `src/seed.js` | Учебные данные магазина для пустой базы |
+| `src/demo.js` | Пример запроса с `innerJoin` |
 | `compose.yaml` | PostgreSQL 18 в контейнере `drizzle-course-db` на порту `5432` |
 
 ## Запуск
@@ -47,7 +47,7 @@ make seed
 make demo
 ```
 
-`make db-create` создаёт базу внутри контейнера. `make migrate` и `make demo` вызывают `npm run db:migrate` и `npm run demo`, как в уроках, а `make seed` запускает _src/seed.ts_.
+`make db-create` создаёт базу внутри контейнера. `make migrate` и `make demo` вызывают `npm run db:migrate` и `npm run demo`, как в уроках, а `make seed` запускает _src/seed.js_.
 
 Программа печатает заказы покупателей.
 
@@ -105,7 +105,7 @@ npm run db:migrate
 
 ## Тесты
 
-Тесты проверяют миграцию и ограничения схемы, связи для Relations API, модули валидации и импорта, а также запуск _src/seed.ts_ и _src/demo.ts_. Они пересоздают схему базы, поэтому работают только с базой, имя которой оканчивается на `_test`. Команда `make test` создаёт базу `drizzle_store_test` в контейнере и запускает тесты на ней.
+Тесты проверяют миграцию и ограничения схемы, связи для Relations API, модули валидации и импорта, а также запуск _src/seed.js_ и _src/demo.js_. Они пересоздают схему базы, поэтому работают только с базой, имя которой оканчивается на `_test`. Команда `make test` создаёт базу `drizzle_store_test` в контейнере и запускает тесты на ней.
 
 ```bash
 make test
@@ -116,7 +116,7 @@ make test
 Проект повторяет код курса, поэтому версии пакетов и команды совпадают с уроками.
 
 - Пакеты ставит npm, потому что уроки пишут `npm run` и `npm install`.
-- Тесты идут на vitest, а `rolldown` закреплён на 1.2.16 через `overrides` в _package.json_. Версия 1.2.18 падает с `Illegal instruction` на процессорах без BMI2 ([rolldown#11607](https://github.com/rolldown/rolldown/issues/11607)). Закрепление снимается, когда выйдет исправление.
+- Тесты идут на vitest и используют JavaScript-файлы. Команда `npm run check:syntax` проверяет синтаксис программ, тестов и конфигурации через Node.js.
 - Версии `drizzle-orm`, `drizzle-kit`, `pg` и остальных пакетов закреплены точно. Обновление меняет вывод программ, и он расходится с уроками. Поднимать их нужно вместе с курсом.
 
 ## Чего здесь нет
