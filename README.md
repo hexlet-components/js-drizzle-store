@@ -47,7 +47,7 @@ make seed
 make demo
 ```
 
-Цели `make` повторяют команды уроков. `make db-create` создаёт базу внутри контейнера, `make migrate` и `make demo` вызывают `npm run db:migrate` и `npm run demo`, `make seed` запускает _src/seed.ts_.
+`make db-create` создаёт базу внутри контейнера. `make migrate` и `make demo` вызывают `npm run db:migrate` и `npm run demo`, как в уроках, а `make seed` запускает _src/seed.ts_.
 
 Программа печатает заказы покупателей.
 
@@ -63,7 +63,14 @@ make demo
 
 ## Без Docker
 
-Проекту нужен любой PostgreSQL, до которого программа доходит по адресу из `DATABASE_URL`. Уроки создают базы утилитой PostgreSQL `createdb`.
+Проекту нужен любой PostgreSQL, до которого программа доходит по адресу из `DATABASE_URL`. Каждому уроку нужна своя пустая база, и создать её можно любым способом. В PostgreSQL для этого есть утилита `createdb` и SQL-команда `CREATE DATABASE`.
+
+```bash
+createdb drizzle_joins
+psql -c "CREATE DATABASE drizzle_joins"
+```
+
+Обе команды делают одно и то же, достаточно любой из них.
 
 ### PostgreSQL на своём компьютере
 
